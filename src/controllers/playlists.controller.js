@@ -17,18 +17,26 @@ const getAllPlaylists = async (req, res, next) => {
     try {
         res.status(200).send({ status: 'OK', data: allPlaylists });
     } catch (error) {
-        res.status(500).send({ status: 'error' });
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILDED", data: { error: error?.message || error } });
     }
 }
 
 const getOnePlaylist = async (req, res, next) => {
-    const { playlistId } = req.params;
-    const playlist = playlistsService.getOnePlaylist(playlistId);
+    const {
+        params: { playlistId }
+    } = req;
+
+    if (!playlistId) return;
 
     try {
-        res.status(200).send({ status: 'ok', data: playlist });
+        const playlist = playlistsService.getOnePlaylist(playlistId);
+        res.status(200).send({ status: 'OK', data: playlist });
     } catch (error) {
-        res.status(500).send({ status: 'error' });
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILDED", data: { error: error?.message || error } });
     }
 }
 
@@ -62,8 +70,6 @@ const createNewPlaylist = async (req, res, next) => {
         owner: body.owner
     };
 
-    console.log('newPlaylist', newPlaylist)
-
     try {
         const createdPlaylist = playlistsService.createNewPlaylist(newPlaylist); // en el service deberíamos añadir el id, la fecha de creación y la de acualización (en este caso será la misma) 
         res.status(201).send({ status: "OK", data: createdPlaylist });
@@ -76,10 +82,39 @@ const createNewPlaylist = async (req, res, next) => {
 }
 
 const updateOnePlaylist = async (req, res, next) => {
-    const updatedPlaylist = playlistsService.updateOnePlaylist(req.params.playlistId);
+    const {
+        body,
+        params: { playlistId }
+    } = req;
+
+    if (!playlistId) return;
+
+    try {
+        const updatedPlaylist = playlistsService.updateOnePlaylist(playlistId, body);
+        res.send({ status: "OK", data: updatedPlaylist });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILDED", data: { error: error?.message || error } });
+    }
 }
 
 const deleteOnePlaylist = async (req, res, next) => {
+    const {
+        params: { playlistId }
+    } = req;
+
+    if (!playlistId) return;
+
+    try {
+        playlistsService.deleteOnePlaylist(playlistId);
+        res.status(204).send({ status: 'OK' });
+    } catch (error) {
+        res
+            .status(error?.status || 500)
+            .send({ status: "FAILDED", data: { error: error?.message || error } });
+    }
+
     playlistsService.deleteOnePlaylist(req.params.playlistId);
 }
 

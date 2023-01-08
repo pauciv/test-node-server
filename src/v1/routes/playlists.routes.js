@@ -1,19 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { 
-    getAllPlaylists, 
-    getOnePlaylist, 
-    createNewPlaylist, 
-    updateOnePlaylist, 
-    deleteOnePlaylist 
-} = require('../../controllers/playlists.controller');
+const workoutController = require('../../controllers/playlists.controller');
 
 router
-    .get('/', getAllPlaylists)
-    .get('/:playlistId', getOnePlaylist)
-    .post('/', createNewPlaylist)
-    .patch('/:playlistId', updateOnePlaylist)
-    .delete('/:playlistId', deleteOnePlaylist)
+    .get('/', workoutController.getAllPlaylists)
+    .get('/:playlistId', workoutController.getOnePlaylist)
+    .post('/', workoutController.createNewPlaylist)
+    .patch('/:playlistId', workoutController.updateOnePlaylist)
+    .delete('/:playlistId', workoutController.deleteOnePlaylist)
 
 module.exports = router;
 

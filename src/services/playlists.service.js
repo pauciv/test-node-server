@@ -1,5 +1,4 @@
-const { v5: uuid } = require('uuid');
-console.log(uuid)
+const { v4: uuid } = require('uuid');
 const playlistModel = require('../database/playlist.model');
 
 const getAllPlaylists = () => {
@@ -7,8 +6,9 @@ const getAllPlaylists = () => {
     return allPlaylists;
 }
 
-const getOnePlaylist = (id) => {
-    return playlistModel.getOnePlaylist(id);
+const getOnePlaylist = (playlistId) => {
+    const playlist = playlistModel.getOnePlaylist(playlistId);
+    return playlist;
 }
 
 const createNewPlaylist = (newPlaylist) => {
@@ -23,12 +23,13 @@ const createNewPlaylist = (newPlaylist) => {
     return createdPlaylist;
 }
 
-const updateOnePlaylist = () => {
-    return;
+const updateOnePlaylist = (playlistId, changes) => {
+    const updatedPlaylist = playlistModel.updateOnePlaylist(playlistId, changes);
+    return updatedPlaylist;
 }
 
-const deleteOnePlaylist = () => {
-    return;
+const deleteOnePlaylist = (playlistId) => {
+    playlistModel.deleteOnePlaylist(playlistId);
 }
 
 module.exports = {

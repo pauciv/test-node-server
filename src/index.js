@@ -6,8 +6,7 @@ const { PORT } = require('./config/config');
 
 const app = express();
 
-app.use(express.json()); // express.json() es un middleware para que podamos parsear la petición.
-
+app.use(express.json()); // express.json() es un middleware para que podamos parsear la petición que llegue.
 app.use('/api/v1/playlists', v1PlaylistsRouter);
 
 app.listen(PORT, () => {

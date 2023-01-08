@@ -1,3 +1,5 @@
+// esto con la base de datos no hay que hacerlo
+
 const fs = require('fs');
 
 const saveToDatabase = (DB) => {
